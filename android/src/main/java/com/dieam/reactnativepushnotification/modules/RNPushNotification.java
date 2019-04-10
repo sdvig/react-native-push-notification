@@ -28,8 +28,6 @@ import java.util.Random;
 
 import android.util.Log;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-
 public class RNPushNotification extends ReactContextBaseJavaModule implements ActivityEventListener {
     public static final String LOG_TAG = "RNPushNotification";// all logging should use this tag
 
@@ -125,25 +123,6 @@ public class RNPushNotification extends ReactContextBaseJavaModule implements Ac
         ReactContext reactContext = getReactApplicationContext();
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(reactContext);
         promise.resolve(managerCompat.areNotificationsEnabled());
-    }
-
-    @ReactMethod
-    public void requestPermissions(String senderID) {
-        ReactContext reactContext = getReactApplicationContext();
-
-        Intent GCMService = new Intent(reactContext, RNPushNotificationRegistrationService.class);
-
-        try {
-            GCMService.putExtra("senderID", senderID);
-            reactContext.startService(GCMService);
-        } catch (Exception e) {
-            Log.d("EXCEPTION SERVICE::::::", "requestPermissions: " + e);
-        }
-    }
-
-    @ReactMethod
-    public void subscribeToTopic(String topic) {
-        FirebaseMessaging.getInstance().subscribeToTopic(topic);
     }
 
     @ReactMethod
